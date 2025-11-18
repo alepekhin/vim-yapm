@@ -5,21 +5,23 @@ func! MenuCB(id, result)
     if a:result == 1
         :LSClientGoToDefinition
     elseif a:result == 2
-        :LSClientGoToDefinitionSplit
+        :LSClientFindCodeActions
     elseif a:result == 3
         :LSClientShowHover
     elseif a:result == 4
         :LSClientAllDiagnostic
     elseif a:result == 5
-        :LSClientRename
+        :LSClientFindReferences
     elseif a:result == 6
-        :OllamaChat
+        :LSClientFindImplementations
     elseif a:result == 7
-        :OllamaReview
+        :LSClientRename
     elseif a:result == 8
-        :Autoformat
+        :normal gg=G
     elseif a:result == 9
-        :Rgrep
+        :OllamaChat
+    elseif a:result == 10
+        :OllamaReview
     endif
 endfunc
 
@@ -27,14 +29,15 @@ func! Lsp()
     if &filetype == "java"
         call popup_menu([
             \'LSClientGoToDefinition',
-            \'LSClientGoToDefinitionSplit',
+            \'LSClientFindCodeActions',
             \'LSClientShowHover', 
             \'LSClientAllDiagnostic',
+            \'LSClientFindReferences',
+            \'LSClientFindImplementations',
             \'LSClientRename',
+            \'AutoFormat',
             \'OllamaChat',
             \'OllamaReview',
-            \'Autoformat',
-            \'Rgrep'
             \], 
             \ #{ title: "Well? Pick one", callback: 'MenuCB', line: 25, col: 40, 
             \ highlight: 'Question', border: [], close: 'click',  padding: [1,1,0,1]} )
